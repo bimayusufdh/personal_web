@@ -214,6 +214,7 @@
     editing: null,
     profileEditMode: false,
     loggedIn: false,
+    recovering: false,
     recoveryEmails: [],
     pendingRecovery: null,
   };
@@ -1028,7 +1029,7 @@
         await enterAdmin();
       });
     }
-    ["reset-code-input", "new-password-input", "confirm-reset-button"].forEach((id) => {
+    ["reset-code-input"].forEach((id) => {
       const element = document.getElementById(id);
       if (element) element.closest("label, button")?.toggleAttribute("hidden", !allowDemo);
     });
@@ -1116,11 +1117,27 @@
       }
     });
 
-    document.getElementById("confirm-reset-button").addEventListener("click", () => {
-      const email = state.pendingRecovery || document.getElementById("recovery-request-email").value.trim().toLowerCase();
-      const code = document.getElementById("reset-code-input").value.trim();
+    document.getElementById("confirm-reset-button").addEventListener("click", async () => {
       const newPassword = document.getElementById("new-password-input").value;
       const status = document.getElementById("recovery-status");
+      if (state.client && !state.demo) {
+        if (newPassword.length < 6) {
+          status.textContent = "Kata sandi baru minimal 6 karakter.";
+          return;
+        }
+        status.textContent = "Menyimpan kata sandi baru...";
+        const { error } = await state.client.auth.updateUser({ password: newPassword });
+        status.textContent = error ? (error.message || "Kata sandi belum dapat diubah.") : "Kata sandi berhasil diubah. Silakan masuk kembali.";
+        if (!error) {
+          await state.client.auth.signOut();
+          document.getElementById("password-recovery-panel").hidden = true;
+          document.getElementById("login-form").hidden = false;
+          document.getElementById("new-password-input").value = "";
+        }
+        return;
+      }
+      const email = state.pendingRecovery || document.getElementById("recovery-request-email").value.trim().toLowerCase();
+      const code = document.getElementById("reset-code-input").value.trim();
       if (!email || !code || !newPassword) {
         status.textContent = "Isi email, kode verifikasi, dan kata sandi baru.";
         return;
@@ -1204,6 +1221,16 @@
     bindDialog();
     bindAuth();
     state.client = await createClient();
+    if (state.client) {
+      state.client.auth.onAuthStateChange((event) => {
+        if (event !== "PASSWORD_RECOVERY") return;
+        state.recovering = true;
+        document.getElementById("login-form").hidden = true;
+        document.getElementById("password-recovery-panel").hidden = false;
+        document.getElementById("recovery-request-email").closest("label")?.toggleAttribute("hidden", true);
+        document.getElementById("recovery-status").textContent = "Masukkan kata sandi baru.";
+      });
+    }
     if (allowDemo && localStorage.getItem(authStateKey) === "true") {
       state.loggedIn = true;
       state.demo = true;
@@ -1212,6 +1239,9 @@
     }
     if (state.client) {
       const session = await state.client.auth.getSession();
+      if (state.recovering) {
+        return;
+      }
       if (session.data.session && (await isAdminSession())) {
         state.demo = false;
         await enterAdmin();
