@@ -3,6 +3,8 @@
   const seed = window.PORTFOLIO_SEED || {};
   const config = window.SUPABASE_CONFIG || {};
   const hasSupabase = Boolean(config.url && config.anonKey);
+  const contactCooldownKey = "bydh-contact-last-submit";
+  const contactCooldownMs = 30 * 1000;
   const base = document.body.dataset.base || "";
   const page = document.body.dataset.page || "home";
 
@@ -42,13 +44,30 @@
     return `${base}${url}`;
   }
 
+  function applyImageFallbacks(data) {
+    const fallbacks = {
+      experiences: "assets/profile.jpg",
+      projects: "assets/test-project-image.svg",
+      certificates: "assets/profile.jpg",
+      education: "assets/profile.jpg",
+      hobbies: "assets/profile.jpg",
+    };
+    Object.entries(fallbacks).forEach(([table, image]) => {
+      if (Array.isArray(data[table])) {
+        data[table] = data[table].map((item) => ({ ...item, image_url: item.image_url || image }));
+      }
+    });
+    if (data.profile && !data.profile.photo_url) data.profile.photo_url = "assets/profile.jpg";
+    return data;
+  }
+
   function getDemoData() {
     const stored = localStorage.getItem(demoKey);
-    if (!stored) return clone(seed);
+    if (!stored) return applyImageFallbacks(clone(seed));
     try {
-      return JSON.parse(stored);
+      return applyImageFallbacks(JSON.parse(stored));
     } catch (_error) {
-      return clone(seed);
+      return applyImageFallbacks(clone(seed));
     }
   }
 
@@ -157,7 +176,7 @@
         .map(
           (skill) => `
             <article class="skill-card reveal">
-              <p class="skill-meta">${escapeHtml(skill.category || "Skill")} / ${escapeHtml(skill.level || "Applied")}</p>
+              <p class="skill-meta">${escapeHtml(skill.category || "Keterampilan")} / ${escapeHtml(skill.level || "Terapan")}</p>
               <h3>${escapeHtml(skill.title)}</h3>
               <p>${escapeHtml(skill.description || "")}</p>
             </article>
@@ -198,7 +217,10 @@
 
   function renderProjects(projects) {
     document.querySelectorAll("[data-render-projects]").forEach((grid) => {
-      grid.innerHTML = limitItems(grid, published(projects))
+      const visibleProjects = grid.dataset.featuredOnly === "true"
+        ? published(projects).filter((project) => project.featured === true)
+        : published(projects);
+      grid.innerHTML = limitItems(grid, visibleProjects)
         .map((project) => projectCard(project))
         .join("");
     });
@@ -214,7 +236,7 @@
       <a class="project-card morph-card reveal" href="${pathFor(`project:${slug}`)}">
         ${imageMarkup}
         <div class="project-card-body">
-          <p class="card-kicker">${escapeHtml(project.category || "Project")}</p>
+              <p class="card-kicker">${escapeHtml(project.category || "Proyek")}</p>
           <h3>${escapeHtml(project.title)}</h3>
           <p>${escapeHtml(project.description || "")}</p>
           <div class="pill-row">${(project.tools || []).map((tool) => `<span class="pill">${escapeHtml(tool)}</span>`).join("")}</div>
@@ -231,7 +253,7 @@
     const slug = currentProjectSlug();
     const project = published(projects).find((item) => item.slug === slug) || published(projects)[0];
     if (!project) {
-      container.innerHTML = "<p>Project belum tersedia.</p>";
+      container.innerHTML = "<p>Proyek belum tersedia.</p>";
       return;
     }
 
@@ -242,12 +264,12 @@
 
     container.innerHTML = `
       ${imageMarkup}
-      <p class="eyebrow">${escapeHtml(project.category || "Project")}</p>
+      <p class="eyebrow">${escapeHtml(project.category || "Proyek")}</p>
       <h1>${escapeHtml(project.title)}</h1>
       <p class="page-lead">${escapeHtml(project.description || "")}</p>
       <div class="pill-row">${(project.tools || []).map((tool) => `<span class="pill">${escapeHtml(tool)}</span>`).join("")}</div>
       <div class="detail-panel">
-        <p class="card-kicker">Outcome</p>
+        <p class="card-kicker">Hasil</p>
         <p>${escapeHtml(project.result || "")}</p>
       </div>
     `;
@@ -281,6 +303,7 @@
         .map(
           (item) => `
             <article class="certificate-item reveal">
+              ${item.image_url ? `<figure class="certificate-media"><img src="${resolveAsset(item.image_url)}" alt="${escapeHtml(item.degree || item.school)}" loading="lazy" /></figure>` : ""}
               <p class="certificate-meta">${escapeHtml(item.period || "")}</p>
               <h3>${escapeHtml(item.degree || "")}</h3>
               <p><strong>${escapeHtml(item.school || "")}</strong></p>
@@ -321,7 +344,7 @@
         .map(
           (item) => `
             <a class="social-link" href="${escapeHtml(item.url || "#")}" target="_blank" rel="noreferrer">
-              ${escapeHtml(item.label || "Link")}
+              ${escapeHtml(item.label || "Tautan")}
             </a>
           `,
         )
@@ -357,6 +380,17 @@
     const form = event.currentTarget;
     const status = document.getElementById("contact-status");
     const payload = Object.fromEntries(new FormData(form).entries());
+    if (payload.website) {
+      status.textContent = "Pesan tidak dapat diproses.";
+      return;
+    }
+    delete payload.website;
+    const lastSubmit = Number(localStorage.getItem(contactCooldownKey) || 0);
+    if (Date.now() - lastSubmit < contactCooldownMs) {
+      const seconds = Math.ceil((contactCooldownMs - (Date.now() - lastSubmit)) / 1000);
+      status.textContent = `Silakan tunggu ${seconds} detik sebelum mengirim pesan lagi.`;
+      return;
+    }
     payload.created_at = new Date().toISOString();
 
     const client = await createClient();
@@ -373,6 +407,7 @@
       localStorage.setItem(demoKey, JSON.stringify(data));
     }
 
+    localStorage.setItem(contactCooldownKey, String(Date.now()));
     form.reset();
     status.textContent = "Pesan berhasil disimpan.";
   }
@@ -386,7 +421,7 @@
     const items = document.querySelectorAll(".reveal");
     if (!items.length) return;
 
-    // Assign stagger index per parent container
+    // Menetapkan indeks jeda untuk setiap wadah induk
     const parents = new Map();
     items.forEach((item) => {
       const parent = item.parentElement;

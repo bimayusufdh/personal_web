@@ -152,6 +152,10 @@ h3 {
   line-height: 1.3;
 }
 
+p {
+  text-align: justify;
+}
+
 .hero-lead,
 .page-lead {
   max-width: 760px;
@@ -163,6 +167,7 @@ h3 {
 .form-status,
 .skill-card p,
 .project-card p,
+.hobby-card p,
 .timeline-item p,
 .certificate-item p {
   color: var(--ink-muted);
@@ -323,6 +328,7 @@ h3 {
 .section > .section-heading,
 .section > .project-grid,
 .section > .skills-grid,
+.section > .hobbies-grid,
 .section > .certificate-list,
 .section > .timeline,
 .section > .detail-panel,
@@ -337,6 +343,7 @@ h3 {
 .section > .section-heading,
 .section > .project-grid,
 .section > .skills-grid,
+.section > .hobbies-grid,
 .section > .certificate-list,
 .section > .timeline,
 .section > .hero-actions,
@@ -407,6 +414,19 @@ h3 {
   margin: 28px 0 30px;
 }
 
+.section-cta {
+  width: 100%;
+  justify-content: flex-start;
+  margin-top: 36px;
+  margin-bottom: 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.experience-cta {
+  border-top: 0;
+}
+
 /* ---------- Quick Facts ---------- */
 .quick-facts,
 .overview-grid,
@@ -429,6 +449,7 @@ h3 {
 .quick-facts div,
 .skill-card,
 .project-card,
+.hobby-card,
 .certificate-item,
 .contact-form,
 .detail-panel,
@@ -588,6 +609,14 @@ h3 {
   display: flex;
   flex-direction: column;
   min-height: 300px;
+  overflow: hidden;
+  color: inherit;
+}
+
+.hobby-card {
+  display: flex;
+  min-height: 300px;
+  flex-direction: column;
   overflow: hidden;
   color: inherit;
 }
@@ -791,6 +820,18 @@ h3 {
   display: grid;
   gap: 18px;
   padding: 28px;
+}
+
+.contact-honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 label {
@@ -1015,6 +1056,7 @@ select:focus {
   .quick-facts,
   .skills-grid,
   .project-grid,
+  .hobbies-grid,
   .certificate-list,
   .stat-grid {
     grid-template-columns: 1fr;
@@ -1041,6 +1083,7 @@ select:focus {
   .contact-section {
     grid-template-columns: 1fr;
   }
+
 }
 
 /* ---------- Reduced Motion ---------- */

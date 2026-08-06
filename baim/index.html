@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Baim Admin | Bima Yusuf Dharmahita</title>
+    <title>Admin Baim | Bima Yusuf Dharmahita</title>
     <meta name="robots" content="noindex,nofollow" />
     <link rel="stylesheet" href="../assets/styles.css" />
     <link rel="stylesheet" href="admin.css" />
@@ -27,9 +27,9 @@
       <section class="admin-main">
         <section id="auth-panel" class="auth-panel">
           <div>
-            <p class="eyebrow">Private Dashboard</p>
-            <h1>Kelola Portfolio</h1>
-            <p class="muted">Login Supabase diperlukan setelah konfigurasi production aktif.</p>
+            <p class="eyebrow">Dasbor Privat</p>
+          <h1>Kelola Portofolio</h1>
+            <p class="muted">Masuk Supabase diperlukan setelah konfigurasi produksi aktif.</p>
           </div>
           <form id="login-form" class="admin-form" method="post" action="javascript:void(0);">
             <label>
@@ -37,19 +37,19 @@
               <input id="login-email" name="email" type="email" autocomplete="email" required />
             </label>
             <label>
-              Password
+              Kata Sandi
               <input id="login-password" name="password" type="password" autocomplete="current-password" required />
             </label>
             <button class="button primary" type="submit">Masuk</button>
             <button id="quick-login-button" class="button ghost" type="button">Masuk cepat</button>
-            <button id="forgot-password-button" class="button ghost" type="button">Lupa password?</button>
+            <button id="forgot-password-button" class="button ghost" type="button">Lupa kata sandi?</button>
             <button id="demo-button" class="button ghost" type="button" hidden>Buka Demo</button>
             <p id="login-status" class="form-status" role="status"></p>
           </form>
 
           <div id="password-recovery-panel" class="auth-card" hidden>
             <div class="auth-card-head">
-              <p class="eyebrow">Reset Password</p>
+              <p class="eyebrow">Atur Ulang Kata Sandi</p>
               <button id="back-to-login-button" class="button ghost" type="button">Kembali</button>
             </div>
             <label>
@@ -62,10 +62,10 @@
               <input id="reset-code-input" type="text" autocomplete="one-time-code" />
             </label>
             <label>
-              Password baru
+              Kata Sandi Baru
               <input id="new-password-input" type="password" autocomplete="new-password" />
             </label>
-            <button id="confirm-reset-button" class="button primary" type="button">Reset password</button>
+            <button id="confirm-reset-button" class="button primary" type="button">Atur Ulang Kata Sandi</button>
             <p id="recovery-status" class="form-status" role="status"></p>
           </div>
         </section>
@@ -73,10 +73,10 @@
         <section id="admin-panel" class="admin-panel" hidden>
           <div class="admin-toolbar">
             <div>
-              <p id="module-kicker" class="eyebrow">Profile</p>
-              <h2 id="module-title">Profile</h2>
+              <p id="module-kicker" class="eyebrow">Profil</p>
+              <h2 id="module-title">Profil</h2>
             </div>
-            <button id="add-button" class="button primary" type="button">Tambah</button>
+          <button id="add-button" class="button primary" type="button">Tambah</button>
           </div>
 
           <div id="account-settings" class="account-settings"></div>
@@ -86,8 +86,8 @@
             <form id="record-form" method="dialog" class="admin-form">
               <div class="dialog-head">
                 <div>
-                  <p class="eyebrow" id="dialog-kicker">Record</p>
-                  <h3 id="dialog-title">Edit Data</h3>
+                  <p class="eyebrow" id="dialog-kicker">Data</p>
+                  <h3 id="dialog-title">Ubah Data</h3>
                 </div>
                 <button class="icon-button" value="cancel" type="submit" aria-label="Tutup">x</button>
               </div>
