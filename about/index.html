@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About | Bima Yusuf Dharmahita</title>
+    <meta name="description" content="Profil profesional Bima Yusuf Dharmahita." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Outfit:wght@400;600;700;800;900&display=swap" />
+    <link rel="icon" href="../assets/profile.jpg" />
+    <link rel="stylesheet" href="../assets/styles.css" />
+    <script src="../assets/config.js"></script>
+    <script src="../assets/seed-data.js"></script>
+    <script src="../assets/app.js" defer></script>
+  </head>
+  <body data-page="about" data-base="../">
+    <header class="site-header">
+      <a class="brand" href="/" data-route="home" aria-label="Bima Yusuf Dharmahita">
+        <span>Bima Yusuf Dharmahita</span>
+      </a>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="site-nav" aria-label="Navigasi utama">
+        <a href="/about/" data-route="about">About</a>
+        <a href="/experience/" data-route="experience">Experience</a>
+        <a href="/projects/" data-route="projects">Projects</a>
+        <a href="/certificates/" data-route="certificates">Certificates</a>
+        <a href="/contact/" data-route="contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div>
+          <p class="eyebrow" data-profile="about_page_label">About</p>
+          <h1 data-profile="about_page_title">Profil Profesional</h1>
+          <p class="page-lead" data-profile="summary">
+            Lulusan baru S1 Teknik Informatika dengan keahlian pada bidang administrasi umum,
+            manual software testing, Red Hat Enterprise Linux, dan manajemen jaringan.
+          </p>
+          <div class="contact-strip">
+            <a data-profile-link="email" href="mailto:bimayusufdh@gmail.com">bimayusufdh@gmail.com</a>
+            <a data-profile-link="telegram" href="https://t.me/bimayusufdh" target="_blank" rel="noreferrer">
+              Telegram
+            </a>
+            <a data-profile-link="linkedin" href="https://linkedin.com/in/bimayusufdh" target="_blank" rel="noreferrer">
+              LinkedIn
+            </a>
+          </div>
+        </div>
+        <figure class="page-hero-media">
+          <img data-profile-image src="../assets/profile.jpg" alt="Foto profil Bima Yusuf Dharmahita" />
+        </figure>
+      </section>
+
+      <section class="section alt">
+        <div class="section-heading">
+          <p class="eyebrow" data-profile="about_skills_label">Skills</p>
+          <h2 data-profile="about_skills_title">Kemampuan utama</h2>
+        </div>
+        <div class="skills-grid" data-render-skills aria-live="polite"></div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow" data-profile="about_education_label">Education</p>
+          <h2 data-profile="about_education_title">Pendidikan</h2>
+        </div>
+        <div class="certificate-list" data-render-education aria-live="polite"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>&copy; <span id="year"></span> <span data-profile="footer_text">Bima Yusuf Dharmahita</span></span>
+      <a href="https://bimayusufdh.bydh.my.id" data-profile-link="footer_link" data-profile="footer_link_text">bimayusufdh.bydh.my.id</a>
+    </footer>
+  </body>
+</html>

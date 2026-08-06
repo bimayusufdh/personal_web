@@ -1,0 +1,25 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/baim/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/projects/:slug",
+      "destination": "/projects/detail/index.html"
+    },
+    {
+      "source": "/baim",
+      "destination": "/baim/index.html"
+    }
+  ]
+}

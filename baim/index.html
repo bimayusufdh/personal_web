@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Baim Admin | Bima Yusuf Dharmahita</title>
+    <meta name="robots" content="noindex,nofollow" />
+    <link rel="stylesheet" href="../assets/styles.css" />
+    <link rel="stylesheet" href="admin.css" />
+    <script src="../assets/config.js"></script>
+    <script src="../assets/seed-data.js"></script>
+    <script src="admin.js?v=20260805-4" defer></script>
+  </head>
+  <body class="admin-body">
+    <main class="admin-shell">
+      <aside class="admin-sidebar">
+        <a class="brand admin-brand" href="/">
+          <span>Baim Admin</span>
+        </a>
+        <nav id="admin-nav" class="admin-nav" aria-label="Navigasi admin"></nav>
+        <div class="admin-session">
+          <p id="session-label" class="muted">Menunggu login</p>
+          <button id="logout-button" class="button ghost" type="button" hidden>Keluar</button>
+        </div>
+      </aside>
+
+      <section class="admin-main">
+        <section id="auth-panel" class="auth-panel">
+          <div>
+            <p class="eyebrow">Private Dashboard</p>
+            <h1>Kelola Portfolio</h1>
+            <p class="muted">Login Supabase diperlukan setelah konfigurasi production aktif.</p>
+          </div>
+          <form id="login-form" class="admin-form" method="post" action="javascript:void(0);">
+            <label>
+              Email
+              <input id="login-email" name="email" type="email" autocomplete="email" required />
+            </label>
+            <label>
+              Password
+              <input id="login-password" name="password" type="password" autocomplete="current-password" required />
+            </label>
+            <button class="button primary" type="submit">Masuk</button>
+            <button id="quick-login-button" class="button ghost" type="button">Masuk cepat</button>
+            <button id="forgot-password-button" class="button ghost" type="button">Lupa password?</button>
+            <button id="demo-button" class="button ghost" type="button" hidden>Buka Demo</button>
+            <p id="login-status" class="form-status" role="status"></p>
+          </form>
+
+          <div id="password-recovery-panel" class="auth-card" hidden>
+            <div class="auth-card-head">
+              <p class="eyebrow">Reset Password</p>
+              <button id="back-to-login-button" class="button ghost" type="button">Kembali</button>
+            </div>
+            <label>
+              Email pemulihan
+              <input id="recovery-request-email" type="email" autocomplete="email" />
+            </label>
+            <button id="request-reset-button" class="button ghost" type="button">Kirim kode verifikasi</button>
+            <label>
+              Kode verifikasi
+              <input id="reset-code-input" type="text" autocomplete="one-time-code" />
+            </label>
+            <label>
+              Password baru
+              <input id="new-password-input" type="password" autocomplete="new-password" />
+            </label>
+            <button id="confirm-reset-button" class="button primary" type="button">Reset password</button>
+            <p id="recovery-status" class="form-status" role="status"></p>
+          </div>
+        </section>
+
+        <section id="admin-panel" class="admin-panel" hidden>
+          <div class="admin-toolbar">
+            <div>
+              <p id="module-kicker" class="eyebrow">Profile</p>
+              <h2 id="module-title">Profile</h2>
+            </div>
+            <button id="add-button" class="button primary" type="button">Tambah</button>
+          </div>
+
+          <div id="account-settings" class="account-settings"></div>
+          <div id="record-list" class="record-list"></div>
+
+          <dialog id="record-dialog" class="record-dialog">
+            <form id="record-form" method="dialog" class="admin-form">
+              <div class="dialog-head">
+                <div>
+                  <p class="eyebrow" id="dialog-kicker">Record</p>
+                  <h3 id="dialog-title">Edit Data</h3>
+                </div>
+                <button class="icon-button" value="cancel" type="submit" aria-label="Tutup">x</button>
+              </div>
+              <div id="form-fields" class="form-grid"></div>
+              <div class="dialog-actions">
+                <button class="button ghost" value="cancel" type="submit">Batal</button>
+                <button class="button primary" id="save-button" value="default" type="submit">Simpan</button>
+              </div>
+              <p id="form-status" class="form-status" role="status"></p>
+            </form>
+          </dialog>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>
