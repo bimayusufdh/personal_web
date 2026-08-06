@@ -123,8 +123,6 @@ alter table public.projects add column if not exists slug text;
 create unique index if not exists projects_slug_key on public.projects (slug);
 alter table public.profiles add column if not exists snapshot_credential text;
 alter table public.experiences add column if not exists image_url text;
-alter table public.certificates add column if not exists image_url text;
-alter table public.education add column if not exists image_url text;
 
 create table if not exists public.certificates (
   id uuid primary key default gen_random_uuid(),
@@ -138,6 +136,7 @@ create table if not exists public.certificates (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+alter table public.certificates add column if not exists image_url text;
 
 create table if not exists public.education (
   id uuid primary key default gen_random_uuid(),
@@ -151,6 +150,7 @@ create table if not exists public.education (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+alter table public.education add column if not exists image_url text;
 
 create table if not exists public.hobbies (
   id uuid primary key default gen_random_uuid(),
