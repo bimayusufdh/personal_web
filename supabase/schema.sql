@@ -142,6 +142,8 @@ alter table public.profiles add column if not exists hobbies_page_title text;
 alter table public.profiles add column if not exists hobbies_page_intro text;
 alter table public.experiences add column if not exists image_url text;
 
+notify pgrst, 'reload schema';
+
 create table if not exists public.certificates (
   id uuid primary key default gen_random_uuid(),
   title text not null,

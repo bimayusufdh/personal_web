@@ -2,9 +2,6 @@
    PORTFOLIO — PREMIUM DARK-MODE DESIGN SYSTEM
    ============================================================ */
 
-/* ---------- Google Fonts (preconnect in HTML, import here as fallback) ---------- */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Outfit:wght@400;600;700;800;900&display=swap');
-
 /* ---------- Design Tokens ---------- */
 :root {
   /* Background layers */

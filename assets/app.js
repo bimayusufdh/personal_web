@@ -5,6 +5,8 @@
   const hasSupabase = Boolean(config.url && config.anonKey);
   const contactCooldownKey = "bydh-contact-last-submit";
   const contactCooldownMs = 30 * 1000;
+  const supabaseModuleUrl = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+  let supabaseClientPromise;
   const base = document.body.dataset.base || "";
   const page = document.body.dataset.page || "home";
 
@@ -78,40 +80,42 @@
 
   async function createClient() {
     if (!hasSupabase) return null;
-    try {
-      const supabaseModule = await import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm");
-      return supabaseModule.createClient(config.url, config.anonKey);
-    } catch (_error) {
-      return null;
+    if (!supabaseClientPromise) {
+      supabaseClientPromise = import(supabaseModuleUrl)
+        .then((supabaseModule) => supabaseModule.createClient(config.url, config.anonKey))
+        .catch(() => null);
     }
+    return supabaseClientPromise;
   }
 
   async function loadData() {
     const client = await createClient();
     if (!client) return getDemoData();
 
-    const tables = [
-      "skills",
-      "experiences",
-      "projects",
-      "certificates",
-      "education",
-      "social_links",
-      "hobbies",
-      "articles",
-    ];
-    const profileResult = await client.from("profiles").select("*").eq("id", "main").maybeSingle();
+    const tablesByPage = {
+      home: ["skills", "experiences", "projects", "hobbies", "social_links"],
+      about: ["skills", "education", "social_links"],
+      experience: ["experiences", "social_links"],
+      projects: ["projects", "social_links"],
+      certificates: ["certificates", "social_links"],
+      hobbies: ["hobbies", "social_links"],
+      contact: ["social_links"],
+    };
+    const tables = tablesByPage[page] || ["social_links"];
+    const profilePromise = client.from("profiles").select("*").eq("id", "main").maybeSingle();
+    const tablePromises = tables.map((table) =>
+      client.from(table).select("*").order("sort_order", { ascending: true }),
+    );
+    const [profileResult, ...tableResults] = await Promise.all([profilePromise, ...tablePromises]);
     const data = {
       ...clone(seed),
       profile: { ...clone(seed.profile || {}), ...(profileResult.data || {}) },
     };
 
-    await Promise.all(
-      tables.map(async (table) => {
-        const result = await client.from(table).select("*").order("sort_order", { ascending: true });
-        if (!result.error && Array.isArray(result.data)) data[table] = result.data;
-      }),
-    );
+    tables.forEach((table, index) => {
+      const result = tableResults[index];
+      if (!result.error && Array.isArray(result.data)) data[table] = result.data;
+    });
 
     return data;
   }
