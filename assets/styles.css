@@ -379,6 +379,73 @@ p {
   max-width: 760px;
 }
 
+/* Jangan tampilkan fallback HTML sebelum data terbaru selesai dimuat. */
+html:not(.data-ready) body[data-page="home"] main,
+html:not(.data-ready) body[data-page="home"] .site-footer,
+html:not(.data-ready) body[data-page="about"] main,
+html:not(.data-ready) body[data-page="about"] .site-footer {
+  visibility: hidden;
+}
+
+html.data-ready body[data-page="home"] main {
+  animation: home-data-ready 360ms ease-out both;
+}
+
+html.data-ready body[data-page="about"] .page-hero > * {
+  opacity: 0;
+  animation: page-content-in 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+html.data-ready body[data-page="about"] .page-hero > :nth-child(2) {
+  animation-delay: 70ms;
+}
+
+@keyframes page-content-in {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translateY(14px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Landing page entrance: reveal the hero in a calm, staggered sequence. */
+html.data-ready body[data-page="home"] .hero-copy > *,
+html.data-ready body[data-page="home"] .hero-portrait {
+  opacity: 0;
+  animation: home-hero-in 650ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: opacity, transform, filter;
+}
+
+html.data-ready body[data-page="home"] .hero-copy > :nth-child(1) { animation-delay: 60ms; }
+html.data-ready body[data-page="home"] .hero-copy > :nth-child(2) { animation-delay: 100ms; }
+html.data-ready body[data-page="home"] .hero-copy > :nth-child(3) { animation-delay: 140ms; }
+html.data-ready body[data-page="home"] .hero-copy > :nth-child(4) { animation-delay: 190ms; }
+html.data-ready body[data-page="home"] .hero-copy > :nth-child(5) { animation-delay: 240ms; }
+html.data-ready body[data-page="home"] .hero-portrait { animation-delay: 80ms; }
+
+@keyframes home-data-ready {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes home-hero-in {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(24px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+  }
+}
+
 /* Gradient text for main name on hero */
 .hero h1 {
   background: var(--gradient-hero);
@@ -410,10 +477,15 @@ p {
 
 [data-profile-image] {
   visibility: hidden;
+  opacity: 0;
+  transform: scale(1.015);
+  transition: opacity 360ms ease-out, transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 [data-profile-image].is-ready {
   visibility: visible;
+  opacity: 1;
+  transform: scale(1);
 }
 
 .hero-actions {
@@ -790,6 +862,7 @@ p {
   display: grid;
   grid-template-columns: minmax(240px, 0.48fr) minmax(320px, 0.62fr);
   gap: clamp(28px, 6vw, 72px);
+  padding-inline: max(clamp(20px, 5vw, 72px), calc((100% - 1180px) / 2));
   background: var(--bg-surface);
 }
 
@@ -995,14 +1068,6 @@ select:focus {
   gap: 10px;
 }
 
-.footer-social-label {
-  color: var(--ink-subtle);
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
 .site-footer .social-grid {
   gap: 8px;
   margin-top: 0;
@@ -1042,6 +1107,32 @@ select:focus {
 .reveal.is-visible {
   animation: content-morph 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: calc(var(--reveal-i, 0) * 80ms);
+}
+
+/* Landing sections morph into place as they enter the viewport. */
+html.data-ready body[data-page="home"] .reveal {
+  clip-path: inset(8% 3% 0 round 28px);
+  filter: blur(6px);
+  will-change: opacity, transform, filter, clip-path;
+}
+
+html.data-ready body[data-page="home"] .reveal.is-visible {
+  animation-name: home-scroll-morph;
+}
+
+@keyframes home-scroll-morph {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(28px) scale(0.94);
+    clip-path: inset(8% 3% 0 round 28px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+    clip-path: inset(0 round 0);
+  }
 }
 
 @keyframes morph-reveal {
@@ -1163,6 +1254,15 @@ select:focus {
 
   .reveal {
     opacity: 1;
+    transform: none;
+  }
+
+  html.data-ready body[data-page="home"] .hero-copy > *,
+  html.data-ready body[data-page="home"] .hero-portrait,
+  html.data-ready body[data-page="home"] .reveal {
+    opacity: 1;
+    filter: none;
+    clip-path: none;
     transform: none;
   }
 }

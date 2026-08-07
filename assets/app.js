@@ -534,7 +534,13 @@
     const year = document.getElementById("year");
     if (year) year.textContent = new Date().getFullYear();
 
-    const data = await loadData();
+    let data;
+    try {
+      data = await loadData();
+    } catch (_error) {
+      // Tetap tampilkan data demo jika koneksi sumber data gagal.
+      data = getDemoData();
+    }
     setProfile(data.profile || {});
     renderSkills(data.skills);
     renderExperience(data.experiences);
@@ -545,6 +551,7 @@
     renderHobbies(data.hobbies);
     renderSocialLinks(data.social_links);
     bindContactForm();
+    document.documentElement.classList.add("data-ready");
     revealOnScroll();
   }
 
