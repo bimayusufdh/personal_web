@@ -408,6 +408,14 @@ p {
   border-radius: calc(var(--radius-lg) - 4px);
 }
 
+[data-profile-image] {
+  visibility: hidden;
+}
+
+[data-profile-image].is-ready {
+  visibility: visible;
+}
+
 .hero-actions {
   flex-wrap: wrap;
   gap: 12px;
@@ -800,6 +808,9 @@ p {
 
 .contact-strip a,
 .social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 10px 16px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -809,11 +820,32 @@ p {
   transition: border-color 200ms ease, background 200ms ease, transform 200ms ease;
 }
 
+.social-icon {
+  display: inline-flex;
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.social-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .contact-strip a:hover,
 .social-link:hover {
   border-color: var(--line-glow);
   background: var(--bg-card-hover);
   transform: translateY(-1px);
+}
+
+.social-links-panel {
+  margin-top: 30px;
+}
+
+.social-links-panel .eyebrow {
+  margin-bottom: 10px;
 }
 
 .contact-form {
@@ -884,6 +916,7 @@ select:focus {
   grid-template-columns: minmax(0, 1fr) minmax(240px, 320px);
   gap: clamp(28px, 6vw, 72px);
   align-items: center;
+  padding-inline: max(clamp(20px, 5vw, 72px), calc((100% - 1180px) / 2));
   padding-block: clamp(54px, 8vw, 92px);
   border-bottom: 1px solid var(--line);
   background: var(--bg-base);
@@ -953,6 +986,38 @@ select:focus {
   border-top: 1px solid var(--line);
   background: var(--bg-surface);
   position: relative;
+}
+
+.footer-socials {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.footer-social-label {
+  color: var(--ink-subtle);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.site-footer .social-grid {
+  gap: 8px;
+  margin-top: 0;
+}
+
+.site-footer .social-link {
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 8px 10px;
+  font-size: 0.82rem;
+}
+
+.site-footer .social-link-label {
+  display: none;
 }
 
 .site-footer::before {

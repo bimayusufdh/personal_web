@@ -44,9 +44,11 @@ create table if not exists public.profiles (
   cta_experience_text text,
   featured_projects_label text,
   featured_projects_title text,
+  featured_projects_intro text,
   cta_projects_text text,
   core_skills_label text,
   core_skills_title text,
+  core_skills_intro text,
   cta_profile_text text,
   about_page_label text,
   about_page_title text,
@@ -57,6 +59,7 @@ create table if not exists public.profiles (
   experience_page_label text,
   experience_page_title text,
   experience_page_intro text,
+  hobbies_intro text,
   certificates_page_label text,
   certificates_page_title text,
   certificates_page_intro text,
@@ -124,6 +127,9 @@ alter table public.projects add column if not exists slug text;
 create unique index if not exists projects_slug_key on public.projects (slug);
 alter table public.profiles add column if not exists snapshot_credential text;
 alter table public.profiles add column if not exists experience_snapshot text;
+alter table public.profiles add column if not exists featured_projects_intro text;
+alter table public.profiles add column if not exists core_skills_intro text;
+alter table public.profiles add column if not exists hobbies_intro text;
 alter table public.experiences add column if not exists image_url text;
 
 create table if not exists public.certificates (
@@ -369,9 +375,11 @@ insert into public.profiles (
   cta_experience_text,
   featured_projects_label,
   featured_projects_title,
+  featured_projects_intro,
   cta_projects_text,
   core_skills_label,
   core_skills_title,
+  core_skills_intro,
   cta_profile_text,
   about_page_label,
   about_page_title,
@@ -382,6 +390,7 @@ insert into public.profiles (
   experience_page_label,
   experience_page_title,
   experience_page_intro,
+  hobbies_intro,
   certificates_page_label,
   certificates_page_title,
   certificates_page_intro,
@@ -421,9 +430,11 @@ insert into public.profiles (
   'Lihat Pengalaman',
   'Proyek Unggulan',
   'Proyek yang paling relevan',
+  'Proyek yang menunjukkan pengalaman dalam pengujian perangkat lunak, Linux, jaringan, dan keamanan informasi.',
   'Semua Proyek',
   'Keterampilan Utama',
   'Kemampuan utama',
+  'Kemampuan teknis dan non-teknis yang mendukung proses kerja, pengujian, administrasi sistem, dan pengelolaan informasi.',
   'Detail Profil',
   'Tentang',
   'Profil Profesional',
@@ -434,6 +445,7 @@ insert into public.profiles (
   'Pengalaman',
   'Pengalaman',
   'Pengalaman pengujian, dokumentasi keamanan informasi, administrasi sistem, dan pengelolaan dokumen organisasi.',
+  'Aktivitas yang membantu saya menjaga kreativitas, memperluas wawasan, dan terus mengembangkan diri.',
   'Sertifikat',
   'Sertifikasi',
   'Kredensial yang mendukung fokus pada administrasi sistem Linux dan administrasi jaringan.',
@@ -470,9 +482,11 @@ insert into public.profiles (
   cta_experience_text = excluded.cta_experience_text,
   featured_projects_label = excluded.featured_projects_label,
   featured_projects_title = excluded.featured_projects_title,
+  featured_projects_intro = excluded.featured_projects_intro,
   cta_projects_text = excluded.cta_projects_text,
   core_skills_label = excluded.core_skills_label,
   core_skills_title = excluded.core_skills_title,
+  core_skills_intro = excluded.core_skills_intro,
   cta_profile_text = excluded.cta_profile_text,
   about_page_label = excluded.about_page_label,
   about_page_title = excluded.about_page_title,
@@ -483,6 +497,7 @@ insert into public.profiles (
   experience_page_label = excluded.experience_page_label,
   experience_page_title = excluded.experience_page_title,
   experience_page_intro = excluded.experience_page_intro,
+  hobbies_intro = excluded.hobbies_intro,
   certificates_page_label = excluded.certificates_page_label,
   certificates_page_title = excluded.certificates_page_title,
   certificates_page_intro = excluded.certificates_page_intro,
@@ -530,7 +545,8 @@ insert into public.hobbies (title, description, image_url, sort_order, published
 
 insert into public.social_links (label, url, sort_order, published) values
 ('LinkedIn', 'https://linkedin.com/in/bimayusufdh', 1, true),
-('Email', 'mailto:bimayusufdh@gmail.com', 2, true);
+('Email', 'mailto:bimayusufdh@gmail.com', 2, true),
+('Telegram', 'https://t.me/bimayusufdh', 3, true);
 
 update public.experiences
 set image_url = 'assets/profile.jpg'

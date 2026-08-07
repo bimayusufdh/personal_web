@@ -140,8 +140,30 @@
     Object.entries(profile || {}).forEach(([key, value]) => text(`[data-profile="${key}"]`, value));
 
     document.querySelectorAll("[data-profile-image]").forEach((image) => {
-      if (profile.photo_url) image.src = resolveAsset(profile.photo_url);
       image.alt = `Foto profil ${profile.full_name || "Bima Yusuf Dharmahita"}`;
+      image.classList.remove("is-ready");
+      image.setAttribute("aria-busy", "true");
+
+      const fallback = resolveAsset("assets/profile.jpg");
+      const source = profile.photo_url ? resolveAsset(profile.photo_url) : fallback;
+      const revealImage = () => {
+        image.classList.add("is-ready");
+        image.removeAttribute("aria-busy");
+      };
+
+      image.dataset.fallbackAttempted = "false";
+      image.onload = revealImage;
+      image.onerror = () => {
+        if (source !== fallback && image.dataset.fallbackAttempted !== "true") {
+          image.dataset.fallbackAttempted = "true";
+          image.src = fallback;
+          return;
+        }
+        revealImage();
+      };
+      image.removeAttribute("src");
+      image.src = source;
+      if (image.complete && image.naturalWidth > 0) revealImage();
     });
 
     document.querySelectorAll('[data-profile-link="email"]').forEach((link) => {
@@ -338,15 +360,57 @@
     });
   }
 
+  function socialIcon(url, label) {
+    const value = `${url || ""} ${label || ""}`.toLowerCase();
+    const svg = (content, attributes = 'fill="currentColor"') =>
+      `<svg viewBox="0 0 24 24" role="img" aria-hidden="true" ${attributes}>${content}</svg>`;
+
+    if (value.includes("linkedin")) {
+      return svg('<path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3A2.02 2.02 0 1 0 5.25 7.04 2.02 2.02 0 0 0 5.25 3ZM20.44 13.41c0-3.47-1.85-5.09-4.32-5.09-1.99 0-2.88 1.1-3.38 1.87V8.5H9.36V20h3.38v-5.7c0-1.5.28-2.95 2.14-2.95 1.83 0 1.85 1.71 1.85 3.05V20h3.38l.33-6.59Z" />');
+    }
+    if (value.includes("telegram") || value.includes("t.me")) {
+      return svg('<path d="m21.4 4.6-2.95 13.9c-.22.98-.8 1.22-1.63.76l-4.5-3.32-2.17 2.09c-.24.24-.44.44-.9.44l.32-4.58 8.34-7.54c.36-.32-.08-.5-.56-.18L7.04 12.7l-4.35-1.36c-.95-.3-.97-.95.2-1.4L19.9 3.96c.8-.3 1.5.18 1.5.64Z" />');
+    }
+    if (value.includes("github")) {
+      return svg('<path d="M12 2.25a9.75 9.75 0 0 0-3.08 19c.49.09.67-.21.67-.47v-1.67c-2.72.59-3.3-1.16-3.3-1.16-.44-1.13-1.08-1.43-1.08-1.43-.88-.6.07-.59.07-.59.97.07 1.48 1 1.48 1 .87 1.49 2.28 1.06 2.84.81.09-.63.34-1.06.62-1.3-2.17-.25-4.45-1.09-4.45-4.83 0-1.07.38-1.94 1-2.62-.1-.25-.43-1.25.1-2.59 0 0 .82-.26 2.68 1a9.26 9.26 0 0 1 4.88 0c1.86-1.26 2.68-1 2.68-1 .53 1.34.2 2.34.1 2.59.62.68 1 1.55 1 2.62 0 3.75-2.29 4.58-4.47 4.82.35.3.66.9.66 1.82v2.69c0 .26.18.56.68.47A9.75 9.75 0 0 0 12 2.25Z" />');
+    }
+    if (value.includes("instagram")) {
+      return svg('<rect x="3.5" y="3.5" width="17" height="17" rx="4" ry="4" fill="none" stroke="currentColor" stroke-width="2" /><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2" /><circle cx="17.5" cy="6.5" r="1" />');
+    }
+    if (value.includes("facebook")) {
+      return svg('<path d="M13.5 21v-8h2.7l.4-3h-3.1V8.1c0-.87.24-1.46 1.5-1.46h1.72V3.96c-.3-.04-1.34-.13-2.55-.13-2.52 0-4.25 1.54-4.25 4.38V10H7v3h2.92v8h3.58Z" />');
+    }
+    if (value.includes("youtube")) {
+      return svg('<path d="M21.58 7.19a2.98 2.98 0 0 0-2.1-2.1C17.63 4.6 12 4.6 12 4.6s-5.63 0-7.48.49a2.98 2.98 0 0 0-2.1 2.1C1.93 9.04 1.93 12 1.93 12s0 2.96.49 4.81c.23.86.91 1.54 1.77 1.77 1.85.49 7.81.49 7.81.49s5.63 0 7.48-.49a2.98 2.98 0 0 0 2.1-2.1c.49-1.85.49-4.81.49-4.81s0-2.96-.49-4.81ZM9.75 15.1V8.9l5.2 3.1-5.2 3.1Z" />');
+    }
+    if (value.includes("tiktok")) {
+      return svg('<path d="M15.8 3h3.05c.15 1.24.77 2.37 1.74 3.16A5.98 5.98 0 0 0 24 7.42v3.1a9.1 9.1 0 0 1-5.1-1.57v6.2a5.86 5.86 0 1 1-5.86-5.86c.39 0 .78.04 1.15.11v3.22a2.8 2.8 0 1 0 1.61 2.53V3Z" />');
+    }
+    if (value.includes("whatsapp") || value.includes("wa.me")) {
+      return svg('<path d="M20.52 3.48A11.88 11.88 0 0 0 12.06 0C5.5 0 .16 5.34.16 11.9c0 2.1.55 4.15 1.6 5.96L.05 24l6.28-1.65a11.88 11.88 0 0 0 5.72 1.46h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.44-8.43Zm-8.46 18.2h-.01a9.84 9.84 0 0 1-5.02-1.37l-.36-.21-3.73.98.99-3.64-.23-.37a9.85 9.85 0 0 1-1.51-5.17C2.19 6.47 6.62 2.04 12.07 2.04a9.8 9.8 0 0 1 6.97 2.89 9.8 9.8 0 0 1 2.88 6.98c0 5.45-4.43 9.77-9.86 9.77Zm5.39-7.34c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.74-1.64-2.04-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.48-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.21 5.08 4.5.71.31 1.27.49 1.7.63.71.23 1.36.2 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35Z" />');
+    }
+    if (value.includes("twitter") || value.includes("x.com")) {
+      return svg('<path d="M18.9 2H22l-6.77 7.74L23.2 22h-6.25l-4.9-6.41L6.45 22H3.33l7.24-8.27L2.8 2h6.4l4.43 5.86L18.9 2Zm-1.1 17.8h1.73L8.27 4.1H6.42L17.8 19.8Z" />');
+    }
+    if (value.includes("mailto:") || /\bemail\b/.test(value)) {
+      return svg('<rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2" /><path d="m4 7 8 6 8-6" fill="none" stroke="currentColor" stroke-width="2" />');
+    }
+    return svg('<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2" /><path d="M3 12h18M12 3c2.2 2.4 3.3 5.4 3.3 9s-1.1 6.6-3.3 9c-2.2-2.4-3.3-5.4-3.3-9S9.8 5.4 12 3Z" fill="none" stroke="currentColor" stroke-width="2" />');
+  }
+
   function renderSocialLinks(links) {
     document.querySelectorAll("[data-render-socials]").forEach((list) => {
       list.innerHTML = published(links)
         .map(
-          (item) => `
-            <a class="social-link" href="${escapeHtml(item.url || "#")}" target="_blank" rel="noreferrer">
-              ${escapeHtml(item.label || "Tautan")}
+          (item) => {
+            const label = item.label || "Tautan";
+            return `
+            <a class="social-link" href="${escapeHtml(item.url || "#")}" target="_blank" rel="noreferrer" aria-label="${escapeHtml(label)}" title="${escapeHtml(label)}">
+              <span class="social-icon">${socialIcon(item.url, label)}</span>
+              <span class="social-link-label">${escapeHtml(label)}</span>
             </a>
-          `,
+          `;
+          },
         )
         .join("");
     });

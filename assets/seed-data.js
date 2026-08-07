@@ -24,9 +24,13 @@ window.PORTFOLIO_SEED = {
     cta_experience_text: "Lihat Pengalaman",
     featured_projects_label: "Proyek Unggulan",
     featured_projects_title: "Proyek yang paling relevan",
+    featured_projects_intro:
+      "Proyek yang menunjukkan pengalaman dalam pengujian perangkat lunak, Linux, jaringan, dan keamanan informasi.",
     cta_projects_text: "Semua Proyek",
     core_skills_label: "Keterampilan Utama",
     core_skills_title: "Kemampuan utama",
+    core_skills_intro:
+      "Kemampuan teknis dan non-teknis yang mendukung proses kerja, pengujian, administrasi sistem, dan pengelolaan informasi.",
     cta_profile_text: "Detail Profil",
     about_page_label: "Tentang",
     about_page_title: "Profil Profesional",
@@ -37,6 +41,8 @@ window.PORTFOLIO_SEED = {
     experience_page_label: "Pengalaman",
     experience_page_title: "Pengalaman",
     experience_page_intro: "Pengalaman pengujian, dokumentasi keamanan informasi, administrasi sistem, dan pengelolaan dokumen organisasi.",
+    hobbies_intro:
+      "Aktivitas yang membantu saya menjaga kreativitas, memperluas wawasan, dan terus mengembangkan diri.",
     certificates_page_label: "Sertifikat",
     certificates_page_title: "Sertifikasi",
     certificates_page_intro: "Kredensial yang mendukung fokus pada administrasi sistem Linux dan administrasi jaringan.",
@@ -252,6 +258,13 @@ window.PORTFOLIO_SEED = {
       label: "Email",
       url: "mailto:bimayusufdh@gmail.com",
       sort_order: 2,
+      published: true,
+    },
+    {
+      id: "social-3",
+      label: "Telegram",
+      url: "https://t.me/bimayusufdh",
+      sort_order: 3,
       published: true,
     },
   ],
