@@ -43,6 +43,11 @@ window.PORTFOLIO_SEED = {
     experience_page_intro: "Pengalaman pengujian, dokumentasi keamanan informasi, administrasi sistem, dan pengelolaan dokumen organisasi.",
     hobbies_intro:
       "Aktivitas yang membantu saya menjaga kreativitas, memperluas wawasan, dan terus mengembangkan diri.",
+    hobbies_section_label: "Hobi",
+    hobbies_section_title: "Aktivitas lain yang saya sukai",
+    hobbies_page_label: "Hobi",
+    hobbies_page_title: "Aktivitas lain yang saya sukai",
+    hobbies_page_intro: "Berbagai kegiatan yang membantu saya belajar, berkembang, dan menjaga keseimbangan di luar pekerjaan profesional.",
     certificates_page_label: "Sertifikat",
     certificates_page_title: "Sertifikasi",
     certificates_page_intro: "Kredensial yang mendukung fokus pada administrasi sistem Linux dan administrasi jaringan.",

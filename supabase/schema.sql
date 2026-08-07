@@ -60,6 +60,11 @@ create table if not exists public.profiles (
   experience_page_title text,
   experience_page_intro text,
   hobbies_intro text,
+  hobbies_section_label text,
+  hobbies_section_title text,
+  hobbies_page_label text,
+  hobbies_page_title text,
+  hobbies_page_intro text,
   certificates_page_label text,
   certificates_page_title text,
   certificates_page_intro text,
@@ -130,6 +135,11 @@ alter table public.profiles add column if not exists experience_snapshot text;
 alter table public.profiles add column if not exists featured_projects_intro text;
 alter table public.profiles add column if not exists core_skills_intro text;
 alter table public.profiles add column if not exists hobbies_intro text;
+alter table public.profiles add column if not exists hobbies_section_label text;
+alter table public.profiles add column if not exists hobbies_section_title text;
+alter table public.profiles add column if not exists hobbies_page_label text;
+alter table public.profiles add column if not exists hobbies_page_title text;
+alter table public.profiles add column if not exists hobbies_page_intro text;
 alter table public.experiences add column if not exists image_url text;
 
 create table if not exists public.certificates (
@@ -391,6 +401,11 @@ insert into public.profiles (
   experience_page_title,
   experience_page_intro,
   hobbies_intro,
+  hobbies_section_label,
+  hobbies_section_title,
+  hobbies_page_label,
+  hobbies_page_title,
+  hobbies_page_intro,
   certificates_page_label,
   certificates_page_title,
   certificates_page_intro,
@@ -446,6 +461,11 @@ insert into public.profiles (
   'Pengalaman',
   'Pengalaman pengujian, dokumentasi keamanan informasi, administrasi sistem, dan pengelolaan dokumen organisasi.',
   'Aktivitas yang membantu saya menjaga kreativitas, memperluas wawasan, dan terus mengembangkan diri.',
+  'Hobi',
+  'Aktivitas lain yang saya sukai',
+  'Hobi',
+  'Aktivitas lain yang saya sukai',
+  'Berbagai kegiatan yang membantu saya belajar, berkembang, dan menjaga keseimbangan di luar pekerjaan profesional.',
   'Sertifikat',
   'Sertifikasi',
   'Kredensial yang mendukung fokus pada administrasi sistem Linux dan administrasi jaringan.',
@@ -498,6 +518,11 @@ insert into public.profiles (
   experience_page_title = excluded.experience_page_title,
   experience_page_intro = excluded.experience_page_intro,
   hobbies_intro = excluded.hobbies_intro,
+  hobbies_section_label = excluded.hobbies_section_label,
+  hobbies_section_title = excluded.hobbies_section_title,
+  hobbies_page_label = excluded.hobbies_page_label,
+  hobbies_page_title = excluded.hobbies_page_title,
+  hobbies_page_intro = excluded.hobbies_page_intro,
   certificates_page_label = excluded.certificates_page_label,
   certificates_page_title = excluded.certificates_page_title,
   certificates_page_intro = excluded.certificates_page_intro,

@@ -380,11 +380,13 @@ p {
 }
 
 /* Jangan tampilkan fallback HTML sebelum data terbaru selesai dimuat. */
-html:not(.data-ready) body[data-page="home"] main,
-html:not(.data-ready) body[data-page="home"] .site-footer,
-html:not(.data-ready) body[data-page="about"] main,
-html:not(.data-ready) body[data-page="about"] .site-footer {
+html:not(.data-ready) body[data-page] main,
+html:not(.data-ready) body[data-page] .site-footer {
   visibility: hidden;
+}
+
+html.data-ready body[data-page] main {
+  animation: page-data-ready 360ms ease-out both;
 }
 
 html.data-ready body[data-page="home"] main {
@@ -411,6 +413,11 @@ html.data-ready body[data-page="about"] .page-hero > :nth-child(2) {
     filter: blur(0);
     transform: translateY(0) scale(1);
   }
+}
+
+@keyframes page-data-ready {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* Landing page entrance: reveal the hero in a calm, staggered sequence. */

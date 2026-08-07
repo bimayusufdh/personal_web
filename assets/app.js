@@ -65,7 +65,12 @@
     const stored = localStorage.getItem(demoKey);
     if (!stored) return applyImageFallbacks(clone(seed));
     try {
-      return applyImageFallbacks(JSON.parse(stored));
+      const storedData = JSON.parse(stored);
+      return applyImageFallbacks({
+        ...clone(seed),
+        ...storedData,
+        profile: { ...clone(seed.profile || {}), ...(storedData.profile || {}) },
+      });
     } catch (_error) {
       return applyImageFallbacks(clone(seed));
     }
@@ -96,7 +101,10 @@
       "articles",
     ];
     const profileResult = await client.from("profiles").select("*").eq("id", "main").maybeSingle();
-    const data = { ...clone(seed), profile: profileResult.data || seed.profile };
+    const data = {
+      ...clone(seed),
+      profile: { ...clone(seed.profile || {}), ...(profileResult.data || {}) },
+    };
 
     await Promise.all(
       tables.map(async (table) => {
