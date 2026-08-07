@@ -35,6 +35,7 @@ create table if not exists public.profiles (
   focus_area text,
   certifications text,
   snapshot_credential text,
+  experience_snapshot text,
   hero_highlight_title text,
   snapshot_label text,
   cta_view_projects_text text,
@@ -122,6 +123,7 @@ create table if not exists public.projects (
 alter table public.projects add column if not exists slug text;
 create unique index if not exists projects_slug_key on public.projects (slug);
 alter table public.profiles add column if not exists snapshot_credential text;
+alter table public.profiles add column if not exists experience_snapshot text;
 alter table public.experiences add column if not exists image_url text;
 
 create table if not exists public.certificates (
@@ -358,6 +360,7 @@ insert into public.profiles (
   focus_area,
   certifications,
   snapshot_credential,
+  experience_snapshot,
   hero_highlight_title,
   snapshot_label,
   cta_view_projects_text,
@@ -409,6 +412,7 @@ insert into public.profiles (
   'Pengujian, Linux, Jaringan',
   'RHCSA, Administrator Jaringan',
   'RHCSA',
+  'MSIB & Organisasi',
   'Pengujian, Linux, Jaringan, dan Dokumentasi Keamanan.',
   'Ringkasan Profesional',
   'Lihat Proyek',
@@ -457,6 +461,7 @@ insert into public.profiles (
   linkedin = excluded.linkedin,
   photo_url = excluded.photo_url,
   snapshot_credential = excluded.snapshot_credential,
+  experience_snapshot = excluded.experience_snapshot,
   hero_highlight_title = excluded.hero_highlight_title,
   snapshot_label = excluded.snapshot_label,
   cta_view_projects_text = excluded.cta_view_projects_text,

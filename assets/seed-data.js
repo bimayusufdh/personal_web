@@ -15,6 +15,7 @@ window.PORTFOLIO_SEED = {
     focus_area: "Pengujian, Linux, Jaringan",
     certifications: "RHCSA, Administrator Jaringan",
     snapshot_credential: "RHCSA",
+    experience_snapshot: "MSIB & Organisasi",
     hero_highlight_title: "Pengujian, Linux, Jaringan, dan Dokumentasi Keamanan.",
     snapshot_label: "Ringkasan Profesional",
     cta_view_projects_text: "Lihat Proyek",

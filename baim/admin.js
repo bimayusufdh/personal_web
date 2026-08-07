@@ -37,6 +37,7 @@
         ["focus_area", "Fokus Utama", "text"],
         ["certifications", "Sertifikasi", "text"],
         ["snapshot_credential", "Kredensial Ringkasan", "text"],
+        ["experience_snapshot", "Ringkasan Pengalaman", "text"],
         ["hero_highlight_title", "Judul Ringkasan", "text"],
         ["snapshot_label", "Label Ringkasan", "text"],
         ["cta_view_projects_text", "Teks Tombol Lihat Proyek", "text"],
